@@ -1,0 +1,133 @@
+<apex:component access="global" controller="b2b_extn_ctrl_emailCart">
+
+    <!-- merge variable with controller -->
+    <apex:attribute type="String" name="ObjectId" description="Cart Record Id" assignTo="{!cartId}"/>
+
+    <html>
+        <body>
+        <div bgcolor="#FAFAFA" style="height:100%!important;width:100%!important;background-color:#fafafa;margin:0;padding:0">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse!important;width:600px;border:1px solid #dddddd">
+            <tr>
+                <td align="center" valign="top">
+                    <table border="0" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-bottom-color:#cccccc;border-bottom-style:solid;border-bottom-width:0px;border-collapse:collapse!important;border-top-color:#ffffff;border-top-style:solid;border-top-width:0px" width="100%">
+                        <tr>
+                            <td align="left" style="color:#000000;font-family:‘proxima-nova’,sans-serif;font-size:14px;line-height:21px;text-align:left;padding:20px" valign="top">
+                                <!-- HEADER -->
+                                <a href="https://www.fluidigm.com/"><img src="https://c.cs91.content.force.com/servlet/servlet.FileDownload?file=0152F00000055mq" width="100" height="105"></img></a>
+                                <br/>
+                                <h1 style="font-family:'proxima-nova',sans-serif; color:#530080; font-size:25px">Review your order.</h1>
+                                <p style="font-family:'proxima-nova',sans-serif; color:#000000; font-size:16px; line-height:21px">Hello {!cart.ccrz__BuyerFirstName__c},<br/>
+                                <br/>You can preview your order below. Still missing some items?</p>
+                                <br/>
+                                <table align="center" cellpadding="10">
+                                    <tbody>
+                                        <tr>
+                                            <td style="min-height:39px;background-color:#9d0081;border-radius:6px;padding:10px;display:inline">
+                                                <a href="https://www.fluidigm.com" style="color:rgb(255,255,255);font-size:16px;font-weight:bold;font-family:'proxima-nova',sans-serif;text-decoration:underline" target="_blank">
+                                                    <strong>RETURN TO CART</strong>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <br/>
+                                <!-- BODY -->
+                                <h2 style="font-family:'proxima-nova',sans-serif; color:#9d0081; font-size:21px">Contents of Your Cart:</h2>
+                                <hr/>
+                                <table border="1" cellpadding="3" cellspacing="3" style="width:100%;border-color:#e7e7e7;border-style:solid">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Product Name</th>
+                                            <th scope="col">Product #</th>
+                                            <th scope="col">Qty</th>
+                                            <th scope="col">List Price</th>
+                                            <th scope="col">Your Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <apex:repeat var="cartItem" value="{!cartItems}">
+                                        <tr>
+                                            <td>{!cartItem.ccrz__Product__r.Name}</td>
+                                            <td>{!cartItem.ccrz__Product__r.ccrz__SKU__c}</td>
+                                            <td>{!cartItem.ccrz__Quantity__c}</td>
+                                            <td>{!cartItem.ccrz__OriginalItemPrice__c}</td>
+                                            <td>{!cartItem.ccrz__Price__c}</td>
+                                        </tr>
+                                        </apex:repeat>
+                                    </tbody>
+                                </table>
+                                <br/>
+                                <hr/>
+                                <!-- SUMMARY -->
+                                <table align="center">
+                                    <tbody>
+                                        <tr>
+                                            <td style="padding:0px 20px 0px 20px;text-align:left;vertical-align:top;width:345px">
+                                                <h2 style="font-family:‘proxima-nova’,sans-serif;color:#9d0081"><span style="font-family:‘proxima-nova’,sans-serif;color:#9d0081"><strong>Summary</strong></span></h2>
+                                            </td>
+                                            <td style="padding:0px 10px;text-align:center;vertical-align:top;width:214px;border-radius:6px">&nbsp;
+                                                <p style="font-family:‘proxima-nova’,sans-serif;font-size:14px;line-height:21px;color:#00000">
+                                                    <br/> Cart Total: ${!cart.ccrz__TotalAmount__c}<br/>
+                                                    <br/> Subtotal: ${!cart.ccrz__SubtotalAmount__c}
+                                                    <br/>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table align="center" cellpadding="10">
+                                    <tbody>
+                                        <tr>
+                                            <td style="min-height:39px;background-color:#9d0081;border-radius:6px;padding:10px;display:inline">
+                                                <a href="https://www.fluidigm.com" style="color:rgb(255,255,255);font-size:16px;font-weight:bold;font-family:‘proxima-nova’,sans-serif;text-decoration:underline" target="_blank">
+                                                    <strong>PLACE YOUR ORDER</strong>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <br/>
+                                <hr/>
+                                <br/>
+                                <!-- FOOTER -->
+                                <table border="0" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-collapse:collapse!important;border-top-color:#ffffff;border-top-style:solid;border-top-width:0px" width="100%">
+                                <tr>
+                                <td align="left" valign="top" style="color:rgb(255,255,255);font-family:‘proxima-nova’,sans-serif;line-height:115%;text-align:left;padding:20px;background:#530080">
+                                    <table align="left" style="width:460px">
+                                    <tbody>
+                                    <tr>
+                                        <td style="text-align:left;font-size:10px;width:530px;display:inline-block;color:#ffffff">
+                                            <span>
+                                            Copyright © 2021 Fluidigm Corporation. All rights reserved.&nbsp;Fluidigm and the Fluidigm logo&nbsp; are trademarks and/or registered trademarks of Fluidigm Corporation in the United States and/or other countries. All other trademarks are the sole property of their respective owners.
+                                            <br/><br/>
+                                            Fluidigm Corporation<br/>
+                                            2 Tower Place, Suite 2000<br/>
+                                            South San Francisco, CA 94080<br/>
+                                            <br/>
+                                            Fluidigm UK Limited<br/>
+                                            A subsidiary of Fluidigm Europe B.V., Company No. 6612614<br/>
+                                            90 Fetter Lane, London EC4A 1JP<br/>
+                                            <br/>
+                                            <a href="https://www.fluidigm.com" target="_blank">fluidigm.com</a><br/>
+                                            <a href="https://go.fluidigm.com/ContactUs" target="_blank">Contact Us</a>
+                                            <br/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    </table>
+                                </td>
+                                </tr>
+                                </table>
+                                <!-- END -->
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        </div>
+        </body>
+    </html>
+
+</apex:component>

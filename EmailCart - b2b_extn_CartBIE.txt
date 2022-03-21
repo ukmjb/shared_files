@@ -1,0 +1,11 @@
+<apex:page id="b2b_extn_CartBIE" applyHtmlTag="false" docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false">
+    
+    <c:b2b_extn_CartItemDetail/>
+    <c:b2b_extn_emailCartModal/>
+    
+    <script type="text/javascript">
+        CCRZ.uiProperties.CartDetailView.partials.cartItemsDesktop = "#b2b-extn-CartItemDetail-View-Desktop";
+        CCRZ.uiProperties.CartDetailView.partials.emailModal = '#b2b-extn-emailModalTemplate';
+    </script>
+
+</apex:page>

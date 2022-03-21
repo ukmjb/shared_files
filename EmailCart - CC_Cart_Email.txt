@@ -1,0 +1,13 @@
+<messaging:emailTemplate subject="Your B2B Cart" 
+    recipientType="User" 
+    relatedToType="ccrz__E_Cart__c">
+
+    <messaging:htmlEmailBody >
+    <html>
+    <body>
+        <c:b2b_extn_emailCartTemplate ObjectId="{!relatedTo.Id}"></c:b2b_extn_emailCartTemplate>
+    </body>
+    </html>
+    </messaging:htmlEmailBody>
+    
+</messaging:emailTemplate>

@@ -1,0 +1,87 @@
+<apex:component id='b2b_extn_emailCartModel' controller='b2b_extn_ctrl_emailCart'>
+
+    <script id="b2b-extn-emailModalTemplate" type="text/template">
+        <div id="emailModal" class="modal fade cc_modal cc_cart_additional_info_modal" tabindex="-1" role="dialog" aria-labelledby="CartEmailLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content cc_modal_content">
+                    <div class="modal-header cc_modal_header">
+                        <button type="button" class="close cc_close" data-dismiss="modal" aria-label="{{pageLabelMap 'Modal_Aria_Close'}}"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title cc_modal_title" id="CartEmailLabel">{{pageLabelMap 'CartOrderEmailer_Header'}}</h4>
+                    </div>
+                    <div class="modal-body cc_modal_body">
+                        <form id="emailForm" class="cc_cart_email_form">
+                            <div class="form-group">
+                                <label for="email_to">{{pageLabelMap 'CartOrderEmailer_ToEmail'}}</label>
+                                <input id="email_to" type="email" class="form-control cc_email_to" name="toEmailAddress">
+                            </div>
+                            <div class="form-group">
+                                <label for="email_cc">{{pageLabelMap 'CartOrderEmailer_CcEmail'}}</label>
+                                <input id="email_cc" type="email" class="form-control cc_email_cc" name="ccEmailAddress">
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">{{pageLabelMap 'CartOrderEmailer_Subject'}}</label>
+                                <input id="subject" type="text" class="form-control cc_subject" name="subject">
+                            </div>
+                        <!-- hide Description
+                            <div class="form-group">
+                                <label for="description">{{pageLabelMap 'CartOrderEmailer_Description'}}</label>
+                                <textarea id="description" rows="10" type="text" class="form-control cc_description" name="description"></textarea>
+                            </div>
+                        -->
+                        </form>
+                    </div>
+                    <div class="modal-footer cc_modal_footer">
+                        <input id="sendEmailBtn" type="button" class="btn btn-default btn-sm cc_send_email" value="{{pageLabelMap 'Send'}}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/javascript">
+        jQuery(function($) {
+            CCRZ.subsc = _.extend(CCRZ.subsc || {});
+            CCRZ.subsc.emailCartActions = _.extend({
+                className: 'b2b_extn_ctrl_emailCart',
+                sendCartEmail: function (emailFormJSON, callback) {
+                    this.invokeCtx('sendCartEmail', emailFormJSON, function (response) {
+                            callback(response);
+                        },
+                        {
+                            buffer: false, // this call will be executed by itself
+                            nmsp: false  // defines that this is a call to a subscriber class
+                        }
+                    ); // end invokeCtx call
+                }
+            }, CCRZ.RemoteInvocation);
+
+
+            CCRZ.pubSub.once("view:CartDetailView:refresh", function(viewReference){
+                Object.getPrototypeOf(viewReference).sendEmail = function(event) {
+                    loading($(event.currentTarget));
+                                        
+                    var emailForm = $("#emailForm").serializeObject();
+                    emailForm.typeDesc = "Cart";
+                    emailForm.param = "cartId";
+                    emailForm.pageName = "cc_CartEmail";
+                    emailForm.paramVal = CCRZ.pagevars.currentCartID;
+                    this.className = 'b2b_extn_ctrl_emailCart';
+
+                    CCRZ.subsc.emailCartActions.sendCartEmail(JSON.stringify(emailForm), function (response) {
+                        if (response && response.success) {
+                            // success
+                            console.log('EmailCart was successful');
+                        } else {
+                            //failed
+                            console.log('EmailCart Failed');
+                        }
+                        doneLoading($(event.currentTarget));
+                        $("#emailModal").modal('hide');
+                    });
+                }
+                viewReference.delegateEvents();
+            });
+        });
+    </script>
+
+</apex:component>
